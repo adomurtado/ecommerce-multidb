@@ -1,0 +1,40 @@
+# masuk ke redis
+docker exec -it ecommerce_distributed_system-redis-1 redis-cli
+KEYS *
+
+# masuk ke mongoDB
+docker exec -it ecommerce_distributed_system-mongo-1 mongosh -u admin -p admin123 --authenticationDatabase admin
+use ecommerce
+db.produk_metadata.find().pretty()
+
+# masuk ke postgres
+docker exec -it ecommerce_distributed_system-citus_master-1 psql -U postgres
+
+# Lihat worker nodes (sharding evidence)
+SELECT * FROM master_get_active_worker_nodes();
+
+# Tampilkan tabel mana saja yang terdistribusi
+SELECT logicalrelid::text AS table_name, partmethod, partkey FROM pg_dist_partition;
+
+# Tampilkan informasi shard (pembagian data)
+SELECT * FROM pg_dist_shard LIMIT 10;
+
+# Tampilkan penempatan shard ke worker (distribusi fisik)
+SELECT shardid, nodename, nodeport
+FROM pg_dist_placement
+JOIN pg_dist_node ON pg_dist_placement.groupid = pg_dist_node.groupid
+LIMIT 10;
+
+# Contoh Query Transaksi: Ambil data dari tabel terdistribusi
+ SET citus.enable_repartition_joins TO ON;
+
+    postgres=#  SELECT
+    o.id AS order_id,
+    u.nama AS pemesan,
+    p.nama AS nama_produk,
+    o.jumlah,
+    o.total,
+    o.created_at
+    FROM orders o
+    JOIN users u ON o.user_id = u.id
+    JOIN produk p ON o.sku = p.sku;

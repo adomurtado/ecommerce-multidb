@@ -1,0 +1,72 @@
+version: "3.9"
+
+services:
+  citus_master:
+    image: citusdata/citus:12.1
+    hostname: citus_master
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    depends_on:
+      - citus_worker_1
+      - citus_worker_2
+    command: ["postgres", "-c", "wal_level=logical"]
+    volumes:
+      - ./db/conf/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+    networks:
+      - citusnet
+
+  citus_worker_1:
+    image: citusdata/citus:12.1
+    hostname: citus_worker_1
+    environment:
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - citusnet
+
+  citus_worker_2:
+    image: citusdata/citus:12.1
+    hostname: citus_worker_2
+    environment:
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - citusnet
+
+  mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - ./db/init/mongo:/docker-entrypoint-initdb.d
+    networks:
+      - citusnet
+
+  redis:
+    image: redis:7.2
+    ports:
+      - "6379:6379"
+    networks:
+      - citusnet
+
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:80"
+    depends_on:
+      - citus_master
+      - redis
+      - mongo
+    volumes:
+      - ./app:/app
+    networks:
+      - citusnet
+
+networks:
+  citusnet:
+    driver: bridge
