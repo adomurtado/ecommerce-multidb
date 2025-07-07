@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Checkout Berhasil{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center mt-16">
+  <div class="bg-green-100 border border-green-300 p-8 rounded-2xl shadow-lg max-w-md text-center">
+    <svg class="mx-auto w-16 h-16 text-green-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+    <h2 class="text-3xl font-bold text-green-700 mb-2">Checkout Berhasil!</h2>
+    <p class="text-gray-800 text-lg mb-4">{{ jumlah }} x <strong>{{ nama }}</strong></p>
+    <p class="text-gray-700 text-xl font-semibold mb-6">Total: <span class="text-green-800">Rp{{ '{:,.0f}'.format(total) }}</span></p>
+
+    <a href="/produk" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg transition duration-200">
+      Kembali ke Daftar Produk
+    </a>
+  </div>
+</div>
+{% endblock %}

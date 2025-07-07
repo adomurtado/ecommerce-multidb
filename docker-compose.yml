@@ -11,9 +11,14 @@ services:
     depends_on:
       - citus_worker_1
       - citus_worker_2
-    command: ["postgres", "-c", "wal_level=logical"]
     volumes:
-      - ./db/conf/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+      - ./db/conf/pg_hba.conf:/etc/postgres_custom/pg_hba.conf
+      - ./db/conf/postgresql.conf:/etc/postgres_custom/postgresql.conf
+
+    command:
+      - "postgres"
+      - "-c"
+      - "config_file=/etc/postgres_custom/postgresql.conf"
     networks:
       - citusnet
 
@@ -22,6 +27,13 @@ services:
     hostname: citus_worker_1
     environment:
       POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./db/conf/pg_hba.conf:/etc/postgres_custom/pg_hba.conf
+      - ./db/conf/postgresql.conf:/etc/postgres_custom/postgresql.conf
+    command:
+      - "postgres"
+      - "-c"
+      - "config_file=/etc/postgres_custom/postgresql.conf"
     networks:
       - citusnet
 
@@ -30,6 +42,13 @@ services:
     hostname: citus_worker_2
     environment:
       POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./db/conf/pg_hba.conf:/etc/postgres_custom/pg_hba.conf
+      - ./db/conf/postgresql.conf:/etc/postgres_custom/postgresql.conf
+    command:
+      - "postgres"
+      - "-c"
+      - "config_file=/etc/postgres_custom/postgresql.conf"
     networks:
       - citusnet
 
@@ -41,7 +60,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin123
     volumes:
-      - ./db/init/mongo:/docker-entrypoint-initdb.d
+      - ./db/init/mongo/init.js:/docker-entrypoint-initdb.d/init.js:ro
     networks:
       - citusnet
 

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Tambah Produk{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Tambah Produk Baru</h1>
+<form method="post" action="/produk/tambah" class="space-y-4">
+    <input type="text" name="sku" placeholder="SKU" required class="border rounded p-2 w-full">
+    <input type="text" name="nama" placeholder="Nama Produk" required class="border rounded p-2 w-full">
+    <input type="number" name="harga" placeholder="Harga" required class="border rounded p-2 w-full">
+    <textarea name="deskripsi" placeholder="Deskripsi" required class="border rounded p-2 w-full"></textarea>
+    <input type="text" name="gambar_url" placeholder="URL Gambar" required class="border rounded p-2 w-full">
+    <input type="number" name="stok" placeholder="Stok Awal" required class="border rounded p-2 w-full">
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
+</form>
+{% endblock %}

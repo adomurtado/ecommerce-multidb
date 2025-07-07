@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Daftar Produk{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Daftar Produk</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {% for p in produk %}
+  <div class="bg-gray-800 p-4 rounded-xl shadow">
+    <img src="{{ p.gambar_url }}" alt="Gambar" class="w-full h-40 object-cover rounded">
+    <h2 class="text-xl font-semibold mt-2">{{ p.nama }}</h2>
+    <p class="text-gray-400 font-bold">Harga: Rp{{ '{:,.0f}'.format(p.harga) }}</p>
+
+    <div class="mt-4 text-right">
+      <a href="/produk/{{ p.sku }}" class="inline-block bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg">
+        Lihat Detail
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

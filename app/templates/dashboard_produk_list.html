@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Dashboard Produk{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6 text-center">Dashboard Produk</h1>
+
+<div class="flex flex-col sm:flex-row sm:justify-between gap-3 mt-4 mb-6">
+  <a href="/produk/tambah" class="bg-green-900 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-center">
+    + Tambah Produk
+  </a>
+  <a href="/dashboard" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-center">
+    Kembali ke Dashboard
+  </a>
+</div>
+
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {% for p in produk %}
+    <div class="bg-gray-800 p-4 rounded shadow">
+      <img src="{{ p.gambar_url }}" class="w-full h-32 object-cover rounded">
+      <h2 class="text-xl font-semibold mt-2">{{ p.nama }}</h2>
+      <p class="text-gray-300">SKU: {{ p.sku }}</p>
+      <p class="text-gray-300 font-bold">Harga: Rp{{ '{:,.0f}'.format(p.harga) }}</p>
+      <p class="text-green-300">Stok: {{ p.stok }}</p>
+      <p class="mt-2 text-sm text-gray-400">{{ p.deskripsi }}</p>
+      <div class="flex gap-3 mt-3">
+        <a href="/produk/{{ p.sku }}/edit" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-3 py-1 rounded">Edit</a>
+        <a href="/produk/{{ p.sku }}/delete" class="bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-3 py-1 rounded">Hapus</a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,82 +1,25 @@
 {% extends "base.html" %}
-{% block title %}Dashboard E-Commerce Terdistribusi{% endblock %}
+{% block title %}Dashboard Admin{% endblock %}
 
 {% block content %}
+<h1 class="text-2xl font-bold mb-6">Dashboard Admin</h1>
 
-<h2 class="text-3xl font-bold text-center text-gray-800 mb-10 tracking-tight">
-    📊 Rekap Data Terdistribusi E-Commerce
-</h2>
-
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-    <!-- USERS -->
-    <div class="bg-white rounded-2xl shadow hover:shadow-xl transition p-6">
-        <h3 class="text-xl font-semibold text-indigo-600 mb-4 flex items-center gap-2">
-            👤 Pengguna
-        </h3>
-        {% if users %}
-        <ul class="divide-y divide-gray-200">
-            {% for user in users %}
-            <li class="py-3">
-                <p class="text-gray-900 font-medium">{{ user.nama }}</p>
-                <p class="text-sm text-gray-500">{{ user.email }}</p>
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <div class="text-sm text-gray-400 italic">Tidak ada data pengguna.</div>
-        {% endif %}
-    </div>
-
-    <!-- PRODUK -->
-    <div class="bg-white rounded-2xl shadow hover:shadow-xl transition p-6">
-        <h3 class="text-xl font-semibold text-green-600 mb-4 flex items-center gap-2">
-            🛒 Produk (PG + Mongo + Redis)
-        </h3>
-        {% if produk_full %}
-        <ul class="divide-y divide-gray-200">
-            {% for p in produk_full %}
-            <li class="py-4">
-                <div class="flex flex-col gap-1">
-                    <div class="flex justify-between items-center">
-                        <h4 class="text-base font-semibold text-gray-800">{{ p.nama }}</h4>
-                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded font-mono">SKU: {{ p.sku }}</span>
-                    </div>
-                    <div class="text-sm text-blue-700">Harga: <strong>Rp{{ "{:,.0f}".format(p.harga)|replace(',', '.') }}</strong></div>
-                    <div class="text-sm text-green-700">Stok: <strong>{{ p.stok }}</strong></div>
-                    <div class="text-xs text-gray-500 italic">{{ p.deskripsi }}</div>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <div class="text-sm text-gray-400 italic">Belum ada produk tersedia.</div>
-        {% endif %}
-    </div>
-
-    <!-- ORDER DETAIL -->
-    <div class="bg-white rounded-2xl shadow hover:shadow-xl transition p-6">
-        <h3 class="text-xl font-semibold text-red-600 mb-4 flex items-center gap-2">
-            📦 Order
-        </h3>
-        {% if order_detail %}
-        <ul class="divide-y divide-gray-200">
-            {% for o in order_detail %}
-            <li class="py-4">
-                <div class="text-sm text-gray-700">
-                    <span class="font-semibold text-gray-900">{{ o.pemesan }}</span> beli 
-                    <strong>{{ o.jumlah }}</strong> × {{ o.nama_produk }}
-                </div>
-                <div class="text-sm text-green-600 font-medium">Total: Rp{{ "{:,.0f}".format(o.total)|replace(',', '.') }}</div>
-                <div class="text-xs text-gray-400 mt-1">{{ o.created_at }}</div>
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <div class="text-sm text-gray-400 italic">Belum ada transaksi.</div>
-        {% endif %}
-    </div>
-
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+  <div class="bg-white p-4 rounded-xl shadow">
+    <h2 class="text-xl font-semibold text-gray-700">Total Produk</h2>
+    <p class="text-3xl font-bold text-blue-700 mt-2">{{ total_produk }}</p>
+  </div>
+  <div class="bg-white p-4 rounded-xl shadow">
+    <h2 class="text-xl font-semibold text-gray-700">Stok Habis</h2>
+    <p class="text-3xl font-bold text-red-600 mt-2">{{ produk_habis }}</p>
+  </div>
+  <div class="bg-white p-4 rounded-xl shadow">
+    <h2 class="text-xl font-semibold text-gray-700">Total Order</h2>
+    <p class="text-3xl font-bold text-green-700 mt-2">{{ total_order }}</p>
+  </div>
 </div>
 
+<div class="flex gap-4">
+  <a href="/dashboard/produk" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">more Produk</a>
+</div>
 {% endblock %}
