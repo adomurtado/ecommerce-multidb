@@ -30,12 +30,21 @@ Sebuah sistem e-commerce yang dirancang untuk demonstrasi integrasi basis data t
 
 ---
 
-## 🚀 Cara Menjalankan
+### 🚀 Clone & Jalankan
 
 ```bash
-[text] (git clone https://github.com/username/ecommerce_distributed_system.git)
-cd ecommerce_distributed_system
-docker-compose up --build
+# Clone repo
+git clone https://github.com/username/ecommerce_distributed_system.git
 
-[text](http://localhost:8001)
+# Masuk ke folder
+cd ecommerce_distributed_system
+
+# Jalankan dengan Docker
+docker-compose up --build
 ```
+
+### 🌐 Akses Aplikasi
+
+Buka di browser:
+
+[http://localhost:8001](http://localhost:8001)
